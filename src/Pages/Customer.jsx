@@ -22,90 +22,70 @@ function CustomerRegister() {
     e.preventDefault();
 
     try {
-      await axios.post(
-        `${userUrl}/customer/create`,
-        form,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // ✅ CAPTURE RESPONSE
+      const res = await axios.post(`${userUrl}/customer/create`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // ✅ STORE CUSTOMER ID
+      localStorage.setItem("customerId", res.data.customer._id);
 
       alert("Customer registered successfully");
       navigate("/deals");
     } catch (err) {
-      alert(err.message || "Customer registration failed");
+      alert(err.response?.data?.message || "Customer registration failed");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">
+        <h2 className="text-2xl font-bold text-center mb-6">
           Register Customer
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-600 font-medium mb-1">
-              Customer Name
-            </label>
-            <input
-              type="text"
-              name="customerName"
-              onChange={handleChange}
-              required
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Enter customer name"
-            />
-          </div>
+          <input
+            type="text"
+            name="customerName"
+            placeholder="Customer Name"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
 
-          <div>
-            <label className="block text-gray-600 font-medium mb-1">
-              Customer Number
-            </label>
-            <input
-              type="text"
-              name="customerNumber"
-              onChange={handleChange}
-              required
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Phone number"
-            />
-          </div>
+          <input
+            type="text"
+            name="customerNumber"
+            placeholder="Customer Number"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
 
-          <div>
-            <label className="block text-gray-600 font-medium mb-1">
-              Deal
-            </label>
-            <input
-              type="text"
-              name="deal"
-              onChange={handleChange}
-              required
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Deal details"
-            />
-          </div>
+          <input
+            type="text"
+            name="deal"
+            placeholder="Deal"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
 
-          <div>
-            <label className="block text-gray-600 font-medium mb-1">
-              Location
-            </label>
-            <input
-              type="text"
-              name="location"
-              onChange={handleChange}
-              required
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Customer location"
-            />
-          </div>
+          <input
+            type="text"
+            name="location"
+            placeholder="Location"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded"
+          />
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md font-semibold hover:bg-blue-600 transition"
+            className="w-full bg-blue-600 text-white py-2 rounded"
           >
             Register Customer
           </button>
