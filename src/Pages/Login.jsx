@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import {userUrl} from "../baseUrl"
-import { useNavigate } from "react-router-dom";
-import axios from 'axios'
-
+import { Link, useNavigate } from "react-router-dom";
+import { userUrl } from "../baseUrl";
+import axios from "axios";
 
 function Login() {
   const [form, setForm] = useState({
@@ -21,45 +19,63 @@ function Login() {
     try {
       const response = await axios.post(`${userUrl}/user/login`, form);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("username", response.data.username); // store username
       navigate("/customerLogin");
     } catch (err) {
-      alert("Login error");
+      alert(err.response?.data?.message || "Login error");
     }
   };
+
   return (
-    <div className="mx-auto max-w-sm p-6 mt-20 border border-sm  border-gray-400 rounded-sm  mb-10">
-      <h2 className="text-center font-extrabold text-2xl mb-3 ">Login Page</h2>
-      <form className="d-flex justify-center" onSubmit={handleSubmit}>
-        <label className="text-lg text-gray-700 mb-2 mt-3">Email</label>
-        <input
-          type="email"
-          placeholder="user@gmail.com"
-          name="userEmail"
-          onChange={handleChange}
-          className="w-full border border-2px rounded-sm shadow-lg  m-2 p-2 border-gray-300"
-        />
-        <label className="text-lg text-gray-700 mb-2 mt-3">Password</label>
-        <input
-          type="password"
-          placeholder="********"
-          name="password"
-          onChange={handleChange}
-          className="w-full border border-2px rounded-sm shadow-lg  m-2 p-2 border-gray-300"
-        />
-        <button
-          type="submit"
-          className="border border-blue-400 bg-blue-500 text-white rounded-lg px-3 py-2 mt-3 w-full cursor-pointer hover:bg-blue-600"
-        >
-          Submit
-        </button>
-      </form>
-      <div className="text-center text-gray-600 font-sm  mt-3">
-        <p>
-          To create a new account
-          <span className="text-orange-400 font-semibold">
-            <Link to="/register"> Register</Link>
-          </span>
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8">
+        <h2 className="text-center font-extrabold text-2xl mb-6 text-gray-800">
+          Login Page
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Email</label>
+            <input
+              type="email"
+              name="userEmail"
+              placeholder="user@gmail.com"
+              value={form.userEmail}
+              onChange={handleChange}
+              required
+              className="w-full border rounded-md p-3 shadow-sm focus:ring-2 focus:ring-indigo-400"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="********"
+              value={form.password}
+              onChange={handleChange}
+              required
+              className="w-full border rounded-md p-3 shadow-sm focus:ring-2 focus:ring-indigo-400"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-3 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition"
+          >
+            Login
+          </button>
+        </form>
+
+        <div className="text-center text-gray-600 mt-4">
+          <p>
+            Don't have an account?{" "}
+            <Link to="/register" className="text-orange-400 font-semibold hover:underline">
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
