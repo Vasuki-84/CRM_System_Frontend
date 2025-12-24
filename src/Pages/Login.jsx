@@ -19,7 +19,7 @@ function Login() {
     try {
       const response = await axios.post(`${userUrl}/user/login`, form);
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("username", response.data.username); // store username
+      localStorage.setItem("username", response.data.username); 
       navigate("/customerLogin");
     } catch (err) {
       alert(err.response?.data?.message || "Login error");

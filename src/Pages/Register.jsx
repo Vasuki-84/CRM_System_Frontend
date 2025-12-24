@@ -8,7 +8,7 @@ function Register() {
     username: "",
     userEmail: "",
     password: "",
-    role: "user", // default role
+    role: "user", 
   });
 
   const navigate = useNavigate();
